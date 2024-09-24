@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAnalytics } from "../hooks/useAnalytics";
 
 interface AddTaskProps {
   onAddTask: (name: string, priority: number) => void;
@@ -7,12 +8,16 @@ interface AddTaskProps {
 const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState("");
   const [priority, setPriority] = useState(1);
+  const { client } = useAnalytics();
 
   const handleAddTask = () => {
     if (taskName.trim()) {
       onAddTask(taskName, priority);
-      setTaskName(""); // Reset input after adding
-      setPriority(1); // Reset priority to default
+
+      // capture analytics event
+      client.capture("task_created", { taskName, priority });
+      setTaskName("");
+      setPriority(1);
     }
   };
 
@@ -20,7 +25,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
     if (e.key === "Enter") {
       handleAddTask();
     } else if (e.key === "Escape") {
-      setTaskName(""); // Clear task input
+      setTaskName("");
     }
   };
 
@@ -31,8 +36,8 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
         placeholder="New task"
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
-        onKeyDown={handleKeyDown} // Add key press handling
-        tabIndex={0} // Allow tab focus
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
         className="p-2 border rounded"
       />
       <select
@@ -41,7 +46,6 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
         tabIndex={0} // Allow tab focus
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
-            // Focus on the Add Task button when right arrow is pressed
             document.getElementById("add-task-btn")?.focus();
           }
         }}
@@ -55,7 +59,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
       <button
         id="add-task-btn"
         onClick={handleAddTask}
-        tabIndex={0} // Allow tab focus
+        tabIndex={0}
         onKeyDown={handleKeyDown}
         className="ml-2 bg-blue-500 text-white p-2 rounded"
       >

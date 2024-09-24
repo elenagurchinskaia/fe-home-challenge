@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import IconButton from "./shared/IconButton";
+import { useAnalytics } from "../hooks/useAnalytics";
 
 interface ToDoItemProps {
   id: number;
@@ -29,6 +30,7 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(name);
+  const { client } = useAnalytics();
 
   // handle the edit task with 'Enter' to save and 'esc' to cancel
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,6 +55,8 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isEditing && e.key === "Enter") {
       onToggleComplete(id);
+      // capture analytics event
+      client.capture("task_marked", { id, name, completed: !completed });
     }
   };
 
