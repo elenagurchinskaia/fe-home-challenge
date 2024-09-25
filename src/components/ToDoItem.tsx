@@ -77,6 +77,11 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
       justifyContent="space-between"
       alignItems="center"
       p={2}
+      sx={{
+        marginBottom: 4,
+        borderBottom: "1px solid gray",
+        paddingBottom: "10px",
+      }}
       tabIndex={0}
       onKeyDown={handleKeyPress}
     >
@@ -98,6 +103,7 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
             tabIndex={0}
             size="small"
             autoFocus
+            sx={{ marginLeft: 2 }}
           />
         ) : (
           <Box

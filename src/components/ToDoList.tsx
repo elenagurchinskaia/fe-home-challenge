@@ -21,7 +21,7 @@ const ToDoList: React.FC<ToDoListProps> = ({
   onEditTask,
 }) => {
   return (
-    <Box className="todo-list" sx={{ mt: 4 }}>
+    <Box className="todo-list" sx={{ mt: 4, padding: 4 }}>
       {tasks.length > 0 ? (
         tasks.map((task) => (
           <ToDoItem
@@ -35,7 +35,7 @@ const ToDoList: React.FC<ToDoListProps> = ({
       ) : (
         <Typography
           variant="body1"
-          sx={{ color: "gray", textAlign: "center" }}
+          sx={{ color: "gray", textAlign: "center", mt: 4 }}
         ></Typography>
       )}
     </Box>

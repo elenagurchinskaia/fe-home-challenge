@@ -2,6 +2,24 @@ import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import ToDoList from "./components/ToDoList";
 import { Grid, Typography } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#1976d2",
+    },
+    background: {
+      default: "#2f2f2f",
+      paper: "#1c1c1c",
+    },
+    text: {
+      primary: "#fff",
+      secondary: "#B3B3B3",
+    },
+  },
+});
 
 interface Task {
   id: number;
@@ -52,37 +70,44 @@ const App: React.FC = () => {
     );
   };
 
-  return (
-    <Grid container spacing={2} sx={{ padding: { xs: "1rem", md: "2rem" } }}>
-      <Grid item xs={12} md={8}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: { xs: "1.5rem", md: "2rem" },
-            marginBottom: { xs: "1rem", md: "2rem" },
-          }}
-        >
-          todo list example
-        </Typography>
-        <AddTask onAddTask={addTask} />
-        <ToDoList
-          tasks={tasks}
-          onToggleComplete={toggleCompleteTask}
-          onDeleteTask={deleteTask}
-          onEditTask={editTask}
-        />
-      </Grid>
+  const sortedTasks = [...tasks].sort(
+    (a, b) => Number(a.completed) - Number(b.completed)
+  );
 
-      <Grid item xs={12} md={4}>
-        <Typography
-          variant="h6"
-          sx={{
-            fontSize: { xs: "1.2rem", md: "1.5rem" },
-            marginBottom: { xs: "0.5rem", md: "1rem" },
-          }}
-        ></Typography>
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Grid container spacing={2} sx={{ padding: { xs: 4, md: 8 } }}>
+        <Grid item xs={12} md={8}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: { xs: "1.5rem", md: "2rem" },
+              marginBottom: { xs: 4, md: 8 },
+            }}
+          >
+            todo list example
+          </Typography>
+          <AddTask onAddTask={addTask} />
+          <ToDoList
+            tasks={sortedTasks}
+            onToggleComplete={toggleCompleteTask}
+            onDeleteTask={deleteTask}
+            onEditTask={editTask}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: { xs: "1.2rem", md: "1.5rem" },
+              marginBottom: { xs: 2, md: 4 },
+            }}
+          ></Typography>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 

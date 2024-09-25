@@ -7,7 +7,9 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Box,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 interface AddTaskProps {
   onAddTask: (name: string, priority: number) => void;
@@ -38,7 +40,12 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   };
 
   return (
-    <div className="add-task">
+    <Box
+      display="flex"
+      flexDirection={{ xs: "column", md: "row" }}
+      alignItems="center"
+      mb={4}
+    >
       <TextField
         type="text"
         label="New Task"
@@ -48,9 +55,12 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
         tabIndex={0}
         className="p-2 border rounded"
         fullWidth
-        sx={{ marginBottom: "1rem" }}
+        sx={{ mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
       />
-      <FormControl sx={{ minWidth: 120, marginRight: "1rem" }} size="small">
+      <FormControl
+        sx={{ minWidth: 120, mr: { md: 2 }, mb: { xs: 2, md: 0 } }}
+        size="small"
+      >
         <InputLabel id="priority-label">Priority</InputLabel>
         <Select
           labelId="priority-label"
@@ -77,11 +87,12 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
         onKeyDown={handleKeyDown}
         variant="contained"
         color="primary"
+        startIcon={<AddIcon />}
         sx={{ height: "40px" }}
       >
         Add Task
       </Button>
-    </div>
+    </Box>
   );
 };
 

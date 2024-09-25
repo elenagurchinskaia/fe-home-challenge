@@ -10,9 +10,9 @@ interface CheckboxProps {
 
 const priorityColors = {
   1: "gray", // low
-  2: "blue", // medium
-  3: "orange", // high
-  4: "red", // urgent
+  2: "#5295f8", // medium
+  3: "#fa9b15", // high
+  4: "#f96f65", // urgent
 };
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -23,21 +23,21 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const priorityColor =
     priorityColors[priority as keyof typeof priorityColors] || "gray";
   return (
-    <div className="flex items-center">
-      {
-        <MUICheckbox
-          checked={completed}
-          onChange={onToggle}
-          sx={{
-            color: priorityColor,
-            "&.Mui-checked": {
-              color: priorityColor,
-            },
-            borderRadius: "50%",
-          }}
-        />
-      }
-    </div>
+    <MUICheckbox
+      checked={completed}
+      onChange={onToggle}
+      sx={{
+        color: priorityColor,
+        "&.Mui-checked": {
+          color: priorityColor,
+        },
+        borderRadius: "50%",
+        padding: "4px",
+        "&:hover": {
+          backgroundColor: `${priorityColor}20`,
+        },
+      }}
+    />
   );
 };
 

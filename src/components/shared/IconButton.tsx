@@ -17,10 +17,15 @@ const IconButton: React.FC<IconButtonProps> = ({ onClick }) => {
         borderColor: "gray",
         ":hover": {
           backgroundColor: "rgba(255, 0, 0, 0.1)",
+          borderColor: "red",
         },
-
-        padding: "0.5rem 1rem",
-        fontSize: { xs: "0.75rem", md: "1rem" },
+        borderRadius: "50%",
+        minWidth: "auto",
+        width: { xs: "2.5rem", md: "3rem" },
+        height: { xs: "2.5rem", md: "3rem" },
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     ></Button>
   );
