@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import ToDoList from "./components/ToDoList";
+import { Grid, Typography } from "@mui/material";
 
 interface Task {
   id: number;
@@ -52,16 +53,36 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app p-4">
-      <h1 className="text-xl mb-4">todo list example</h1>
-      <AddTask onAddTask={addTask} />
-      <ToDoList
-        tasks={tasks}
-        onToggleComplete={toggleCompleteTask}
-        onDeleteTask={deleteTask}
-        onEditTask={editTask}
-      />
-    </div>
+    <Grid container spacing={2} sx={{ padding: { xs: "1rem", md: "2rem" } }}>
+      <Grid item xs={12} md={8}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: { xs: "1.5rem", md: "2rem" },
+            marginBottom: { xs: "1rem", md: "2rem" },
+          }}
+        >
+          todo list example
+        </Typography>
+        <AddTask onAddTask={addTask} />
+        <ToDoList
+          tasks={tasks}
+          onToggleComplete={toggleCompleteTask}
+          onDeleteTask={deleteTask}
+          onEditTask={editTask}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: { xs: "1.2rem", md: "1.5rem" },
+            marginBottom: { xs: "0.5rem", md: "1rem" },
+          }}
+        ></Typography>
+      </Grid>
+    </Grid>
   );
 };
 

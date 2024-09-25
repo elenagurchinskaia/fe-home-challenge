@@ -10,10 +10,18 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({ onClick }) => {
   return (
     <Button
-      variant="outlined"
       startIcon={<DeleteIcon />}
       onClick={onClick}
-      className="text-red-500 border-red-500 hover:bg-red-50"
+      sx={{
+        color: "gray",
+        borderColor: "gray",
+        ":hover": {
+          backgroundColor: "rgba(255, 0, 0, 0.1)",
+        },
+
+        padding: "0.5rem 1rem",
+        fontSize: { xs: "0.75rem", md: "1rem" },
+      }}
     ></Button>
   );
 };

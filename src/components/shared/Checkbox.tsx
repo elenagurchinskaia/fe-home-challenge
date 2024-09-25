@@ -1,27 +1,42 @@
 import React from "react";
+import { Checkbox as MUICheckbox } from "@mui/material";
 
 interface CheckboxProps {
   completed: boolean;
   onToggle: () => void;
-  label: string;
+  priority: number;
+  tabIndex?: number;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ completed, onToggle, label }) => {
+const priorityColors = {
+  1: "gray", // low
+  2: "blue", // medium
+  3: "orange", // high
+  4: "red", // urgent
+};
+
+const Checkbox: React.FC<CheckboxProps> = ({
+  completed,
+  onToggle,
+  priority,
+}) => {
+  const priorityColor =
+    priorityColors[priority as keyof typeof priorityColors] || "gray";
   return (
     <div className="flex items-center">
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={onToggle}
-        className="h-5 w-5 text-green-500 rounded border-gray-300 focus:ring-green-500"
-      />
-      <label
-        className={`ml-2 ${
-          completed ? "line-through text-gray-400" : "text-black"
-        }`}
-      >
-        {label}
-      </label>
+      {
+        <MUICheckbox
+          checked={completed}
+          onChange={onToggle}
+          sx={{
+            color: priorityColor,
+            "&.Mui-checked": {
+              color: priorityColor,
+            },
+            borderRadius: "50%",
+          }}
+        />
+      }
     </div>
   );
 };

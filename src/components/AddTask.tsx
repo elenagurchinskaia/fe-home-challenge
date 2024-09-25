@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { useAnalytics } from "../hooks/useAnalytics";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 interface AddTaskProps {
   onAddTask: (name: string, priority: number) => void;
@@ -31,40 +39,48 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
 
   return (
     <div className="add-task">
-      <input
+      <TextField
         type="text"
-        placeholder="New task"
+        label="New Task"
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
         onKeyDown={handleKeyDown}
         tabIndex={0}
         className="p-2 border rounded"
+        fullWidth
+        sx={{ marginBottom: "1rem" }}
       />
-      <select
-        value={priority}
-        onChange={(e) => setPriority(Number(e.target.value))}
-        tabIndex={0} // Allow tab focus
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight") {
-            document.getElementById("add-task-btn")?.focus();
-          }
-        }}
-        className="ml-2 p-2 border rounded"
-      >
-        <option value={1}>Low</option>
-        <option value={2}>Medium</option>
-        <option value={3}>High</option>
-        <option value={4}>Urgent</option>
-      </select>
-      <button
+      <FormControl sx={{ minWidth: 120, marginRight: "1rem" }} size="small">
+        <InputLabel id="priority-label">Priority</InputLabel>
+        <Select
+          labelId="priority-label"
+          value={priority}
+          onChange={(e) => setPriority(Number(e.target.value))}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowRight") {
+              document.getElementById("add-task-btn")?.focus();
+            }
+          }}
+          label="Priority"
+        >
+          <MenuItem value={1}>Low</MenuItem>
+          <MenuItem value={2}>Medium</MenuItem>
+          <MenuItem value={3}>High</MenuItem>
+          <MenuItem value={4}>Urgent</MenuItem>
+        </Select>
+      </FormControl>
+      <Button
         id="add-task-btn"
         onClick={handleAddTask}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        className="ml-2 bg-blue-500 text-white p-2 rounded"
+        variant="contained"
+        color="primary"
+        sx={{ height: "40px" }}
       >
         Add Task
-      </button>
+      </Button>
     </div>
   );
 };

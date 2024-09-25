@@ -1,23 +1,18 @@
 import { useState, useEffect } from "react";
 import IconButton from "./shared/IconButton";
+import Checkbox from "./shared/Checkbox";
 import { useAnalytics } from "../hooks/useAnalytics";
+import { Box, TextField } from "@mui/material";
 
 interface ToDoItemProps {
   id: number;
   name: string;
-  priority: number;
   completed: boolean;
+  priority: number;
   onToggleComplete: (id: number) => void;
   onDeleteTask: (id: number) => void;
   onEditTask: (id: number, newName: string) => void;
 }
-
-const priorityColors = {
-  1: "border-gray-500 text-gray-500", // low
-  2: "border-blue-500 text-blue-500", // medium
-  3: "border-orange-500 text-orange-500", // high
-  4: "border-red-500 text-red-500", // urgent
-};
 
 const ToDoItem: React.FC<ToDoItemProps> = ({
   id,
@@ -37,6 +32,7 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
     if (e.key === "Enter") {
       onEditTask(id, editValue);
       setIsEditing(false);
+      client.capture("task_edited", { id, newName: editValue });
     } else if (e.key === "Escape") {
       setIsEditing(false);
       setEditValue(name);
@@ -53,10 +49,11 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
 
   // mark task as completed when pressing "Enter" key outside of edit mode
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!isEditing && e.key === "Enter") {
-      onToggleComplete(id);
-      // capture analytics event
-      client.capture("task_marked", { id, name, completed: !completed });
+    if (e.key === "Enter" && !isEditing) {
+      setIsEditing(true);
+    } else if (e.key === "Escape" && isEditing) {
+      setIsEditing(false);
+      setEditValue(name); // Reset to original value on cancel
     }
   };
 
@@ -74,52 +71,51 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
   }, [isEditing, name]);
 
   return (
-    <div
-      className="todo-item flex justify-between items-center p-2 border-b"
+    <Box
+      className="todo-item"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      p={2}
       tabIndex={0}
       onKeyDown={handleKeyPress}
     >
-      <div className="flex items-center">
-        <span
-          className={`h-6 w-6 rounded-full border-2 ${priorityColors[priority]} flex justify-center items-center`}
-        >
-          <input
-            type="checkbox"
-            checked={completed}
-            onChange={() => onToggleComplete(id)}
-            tabIndex={0}
-            className="appearance-none h-4 w-4 rounded-full bg-white border-none"
-          />
-        </span>
+      <Box display="flex" alignItems="center">
+        <Checkbox
+          completed={completed}
+          onToggle={() => onToggleComplete(id)}
+          priority={priority}
+          tabIndex={0}
+        />
 
         {isEditing ? (
-          <input
+          <TextField
             type="text"
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
             tabIndex={0}
-            className="ml-2 border border-gray-300 rounded p-1 focus:outline-none"
+            size="small"
             autoFocus
           />
         ) : (
-          <span
-            className={
-              completed
-                ? "line-through ml-2 cursor-pointer"
-                : "ml-2 cursor-pointer"
-            }
+          <Box
+            component="span"
+            sx={{
+              ml: 2,
+              cursor: "pointer",
+              textDecoration: completed ? "line-through" : "none",
+            }}
             onClick={() => setIsEditing(true)}
           >
             {name}
-          </span>
+          </Box>
         )}
-      </div>
-      <div className="flex items-center">
-        <IconButton onClick={() => onDeleteTask(id)} icon="delete" />
-      </div>
-    </div>
+      </Box>
+
+      <IconButton onClick={() => onDeleteTask(id)} />
+    </Box>
   );
 };
 
