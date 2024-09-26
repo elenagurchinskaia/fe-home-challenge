@@ -1,0 +1,17 @@
+{
+  "preset": "ts-jest",
+  "transform": {
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "testEnvironment": "jest-environment-jsdom",
+  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "moduleNameMapper": {
+    "\\.(css|less)$": "identity-obj-proxy"
+  },
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "tsconfig.json"
+    }
+  }
+}

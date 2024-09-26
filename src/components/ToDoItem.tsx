@@ -12,6 +12,7 @@ interface ToDoItemProps {
   onToggleComplete: (id: number) => void;
   onDeleteTask: (id: number) => void;
   onEditTask: (id: number, newName: string) => void;
+  isEditing?: boolean;
 }
 
 const ToDoItem: React.FC<ToDoItemProps> = ({
@@ -95,6 +96,7 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
 
         {isEditing ? (
           <TextField
+            role="textbox"
             type="text"
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}

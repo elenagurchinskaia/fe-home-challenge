@@ -94,6 +94,7 @@ const App: React.FC = () => {
             onToggleComplete={toggleCompleteTask}
             onDeleteTask={deleteTask}
             onEditTask={editTask}
+            onAddTask={addTask}
           />
         </Grid>
 

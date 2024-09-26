@@ -12,6 +12,7 @@ interface ToDoListProps {
   onToggleComplete: (id: number) => void;
   onDeleteTask: (id: number) => void;
   onEditTask: (id: number, newName: string) => void;
+  onAddTask: (name: string, priority: number) => void;
 }
 
 const ToDoList: React.FC<ToDoListProps> = ({

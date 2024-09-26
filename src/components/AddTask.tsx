@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useAnalytics } from "../hooks/useAnalytics";
 import {
   TextField,
-  Button,
   MenuItem,
   Select,
   InputLabel,
   FormControl,
   Box,
+  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -40,58 +40,56 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection={{ xs: "column", md: "row" }}
-      alignItems="center"
-      mb={4}
-    >
-      <TextField
-        type="text"
-        label="New Task"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        className="p-2 border rounded"
-        fullWidth
-        sx={{ mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
-      />
-      <FormControl
-        sx={{ minWidth: 120, mr: { md: 2 }, mb: { xs: 2, md: 0 } }}
-        size="small"
-      >
-        <InputLabel id="priority-label">Priority</InputLabel>
-        <Select
-          labelId="priority-label"
-          value={priority}
-          onChange={(e) => setPriority(Number(e.target.value))}
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight") {
-              document.getElementById("add-task-btn")?.focus();
-            }
-          }}
-          label="Priority"
-        >
-          <MenuItem value={1}>Low</MenuItem>
-          <MenuItem value={2}>Medium</MenuItem>
-          <MenuItem value={3}>High</MenuItem>
-          <MenuItem value={4}>Urgent</MenuItem>
-        </Select>
-      </FormControl>
-      <Button
-        id="add-task-btn"
+    <Box display="flex" flexDirection="column" alignItems="flex-start" mb={4}>
+      <IconButton
+        sx={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          fontSize: "1rem",
+          "&:hover": { backgroundColor: "transparent" },
+        }}
         onClick={handleAddTask}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        variant="contained"
-        color="primary"
-        startIcon={<AddIcon />}
-        sx={{ height: "40px" }}
       >
-        Add Task
-      </Button>
+        <AddIcon sx={{ color: "#f96f65", marginRight: "8px" }} />
+        <span style={{ color: "#A9A9A9", textTransform: "lowercase" }}>
+          Add task
+        </span>
+      </IconButton>
+
+      <Box
+        display="flex"
+        flexDirection={{ xs: "column", md: "row" }}
+        alignItems="center"
+        mt={2}
+      >
+        <TextField
+          type="text"
+          label="New Task"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          onKeyDown={handleKeyDown}
+          fullWidth
+          sx={{ mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
+        />
+        <FormControl
+          sx={{ minWidth: 120, mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
+          size="small"
+        >
+          <InputLabel id="priority-label">Priority</InputLabel>
+          <Select
+            labelId="priority-label"
+            value={priority}
+            onChange={(e) => setPriority(Number(e.target.value))}
+            label="Priority"
+          >
+            <MenuItem value={1}>Low</MenuItem>
+            <MenuItem value={2}>Medium</MenuItem>
+            <MenuItem value={3}>High</MenuItem>
+            <MenuItem value={4}>Urgent</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
     </Box>
   );
 };
