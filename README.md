@@ -23,7 +23,7 @@ This is a To-Do List application built using React and Material UI. It allows us
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-repository-url.git
+   git clone https://github.com/elenagurchinskaia/fe-home-challenge
    cd your-project-directory
    ```
 

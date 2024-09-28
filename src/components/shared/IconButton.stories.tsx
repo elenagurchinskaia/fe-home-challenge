@@ -1,5 +1,5 @@
 import { Meta, StoryFn } from "@storybook/react";
-import IconButton from "../components/shared/IconButton";
+import IconButton from "./IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   component: IconButton,
 } as Meta;
 
-const Template: StoryFn = (args) => <IconButton {...args} />;
+const Template: StoryFn = (args) => <IconButton onClick={() => {}} {...args} />;
 
 export const Delete = Template.bind({});
 Delete.args = {

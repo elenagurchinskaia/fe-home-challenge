@@ -1,12 +1,14 @@
 import { Meta, StoryFn } from "@storybook/react";
-import Checkbox from "../components/shared/Checkbox";
+import Checkbox from "./Checkbox";
 
 export default {
   title: "Shared/Checkbox",
   component: Checkbox,
 } as Meta;
 
-const Template: StoryFn = (args) => <Checkbox {...args} />;
+const Template: StoryFn = (args) => (
+  <Checkbox completed={false} onToggle={() => {}} priority={0} {...args} />
+);
 
 export const Unchecked = Template.bind({});
 Unchecked.args = {

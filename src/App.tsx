@@ -77,7 +77,13 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Grid container spacing={2} sx={{ padding: { xs: 4, md: 8 } }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ padding: { xs: 4, md: 8 } }}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Grid item xs={12} md={8}>
           <Typography
             variant="h4"

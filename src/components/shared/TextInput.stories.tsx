@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from "@storybook/react";
 import { useState } from "react";
-import TextInput from "../components/shared/TextInput";
+import TextInput from "./TextInput";
 
 export default {
   title: "Shared/TextInput",
