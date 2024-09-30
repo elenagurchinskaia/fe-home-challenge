@@ -1,47 +1,42 @@
-import { useState } from "react";
 import {
   Box,
   Select,
   MenuItem,
   InputLabel,
   FormControl,
+  SelectProps as MUISelectProps,
   SelectChangeEvent,
 } from "@mui/material";
 
-interface DropdownProps {
-  priority: number;
-  onChange: (priority: number) => void;
+interface DropdownProps extends Omit<MUISelectProps, "value"> {
+  borderColor?: string;
+  label?: string;
+  value: any;
+  onChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
 }
 
 const priorityOptions = [
-  { label: "Urgent", value: 1, color: "red" },
-  { label: "High", value: 2, color: "orange" },
-  { label: "Medium", value: 3, color: "yellow" },
-  { label: "Low", value: 4, color: "gray" },
-];
+  { label: "Low", value: 1, color: "gray" },
+  { label: "Medium", value: 2, color: "#5295f8" },
+  { label: "High", value: 3, color: "#fa9b15" },
+  { label: "Urgent", value: 4, color: "#f96f65" },
+] as const;
 
-const Dropdown: React.FC<DropdownProps> = ({ priority, onChange }) => {
-  const [selectedOption, setSelectedOption] = useState(priority);
-
-  const handleSelectChange = (event: SelectChangeEvent<number>) => {
-    const value = Number(event.target.value);
-    setSelectedOption(value);
-    onChange(value);
-  };
-
+const Dropdown: React.FC<DropdownProps> = ({
+  borderColor = "gray",
+  ...props
+}) => {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="priority-label">Priority</InputLabel>
+        <InputLabel id="dropdown-label">{props.label}</InputLabel>
         <Select
           labelId="priority-label"
-          id="priority-select"
-          value={selectedOption}
-          onChange={handleSelectChange}
-          label="Priority"
+          {...props}
           sx={{
-            bgcolor: "white",
+            bgcolor: "red",
             "& .MuiOutlinedInput-root": {
+              borderColor: borderColor,
               borderRadius: "8px",
             },
           }}

@@ -8,20 +8,27 @@ export default {
 } as Meta;
 
 const Template: StoryFn = (args) => {
-  const [priority, setPriority] = useState(args.priority);
+  const [selectedValue, setSelectedValue] = useState(args.value || 1);
 
   const handlePriorityChange = (newPriority: number) => {
-    setPriority(newPriority);
-    args.onChange(newPriority);
+    setSelectedValue(newPriority);
+    if (args.onChange) {
+      args.onChange(newPriority);
+    }
   };
 
   return (
-    <Dropdown {...args} priority={priority} onChange={handlePriorityChange} />
+    <Dropdown
+      {...args}
+      value={selectedValue}
+      onChange={(e) => handlePriorityChange(Number(e.target.value))}
+    />
   );
 };
 
 export const Default = Template.bind({});
 Default.args = {
   priority: 1,
+  label: "Priority",
   onChange: (priority: number) => console.log("Selected priority:", priority),
 };

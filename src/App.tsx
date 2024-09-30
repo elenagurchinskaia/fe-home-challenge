@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import ToDoList from "./components/ToDoList";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -24,7 +25,7 @@ const darkTheme = createTheme({
 interface Task {
   id: number;
   name: string;
-  priority: number;
+  priority: 1 | 2 | 3 | 4;
   completed: boolean;
 }
 
@@ -40,8 +41,8 @@ const App: React.FC = () => {
     localStorage.setItem("todoTasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (name: string, priority: number) => {
-    const newTask = {
+  const addTask = (name: string, priority: 1 | 2 | 3 | 4) => {
+    const newTask: Task = {
       id: Date.now(),
       name,
       priority,
@@ -77,43 +78,37 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Grid
-        container
-        spacing={2}
-        sx={{ padding: { xs: 4, md: 8 } }}
+      <Box
+        display="flex"
+        flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        minHeight="100vh"
+        sx={{ padding: { xs: 4, md: 8 } }}
       >
-        <Grid item xs={12} md={8}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontSize: { xs: "1.5rem", md: "2rem" },
-              marginBottom: { xs: 4, md: 8 },
-            }}
-          >
-            todo list example
-          </Typography>
-          <AddTask onAddTask={addTask} />
-          <ToDoList
-            tasks={sortedTasks}
-            onToggleComplete={toggleCompleteTask}
-            onDeleteTask={deleteTask}
-            onEditTask={editTask}
-            onAddTask={addTask}
-          />
+        <Typography
+          variant="h4"
+          align="center"
+          sx={{
+            fontSize: { xs: "1.5rem", md: "2rem" },
+            marginBottom: { xs: 4, md: 8 },
+          }}
+        >
+          todo list example
+        </Typography>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12} md={8}>
+            <AddTask onAddTask={addTask} />
+            <ToDoList
+              tasks={sortedTasks}
+              onToggleComplete={toggleCompleteTask}
+              onDeleteTask={deleteTask}
+              onEditTask={editTask}
+              onAddTask={addTask}
+            />
+          </Grid>
         </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: { xs: "1.2rem", md: "1.5rem" },
-              marginBottom: { xs: 2, md: 4 },
-            }}
-          ></Typography>
-        </Grid>
-      </Grid>
+      </Box>
     </ThemeProvider>
   );
 };

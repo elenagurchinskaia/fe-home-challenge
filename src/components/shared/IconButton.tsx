@@ -1,17 +1,18 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import Button, { ButtonProps as MUIButtonProps } from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface IconButtonProps {
+interface IconButtonProps extends MUIButtonProps {
   onClick: () => void;
   label?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ onClick }) => {
+const IconButton: React.FC<IconButtonProps> = ({ onClick, ...props }) => {
   return (
     <Button
       startIcon={<DeleteIcon />}
       onClick={onClick}
+      {...props}
       sx={{
         color: "gray",
         borderColor: "gray",
@@ -26,6 +27,7 @@ const IconButton: React.FC<IconButtonProps> = ({ onClick }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        ...props.sx,
       }}
     ></Button>
   );

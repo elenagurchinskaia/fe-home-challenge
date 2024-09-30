@@ -1,13 +1,18 @@
 import React, { useState, useCallback } from "react";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Grid, TextField, TextFieldProps } from "@mui/material";
 
-interface TextInputProps {
+interface TextInputProps extends Omit<TextFieldProps, "value"> {
   value: string;
   onSave: (value: string) => void;
   onCancel: () => void;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ value, onSave, onCancel }) => {
+const TextInput: React.FC<TextInputProps> = ({
+  value,
+  onSave,
+  onCancel,
+  ...props
+}) => {
   const [inputValue, setInputValue] = useState(value);
 
   const handleKeyDown = useCallback(

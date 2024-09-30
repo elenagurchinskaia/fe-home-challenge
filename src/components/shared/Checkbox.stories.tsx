@@ -6,20 +6,18 @@ export default {
   component: Checkbox,
 } as Meta;
 
-const Template: StoryFn = (args) => (
-  <Checkbox completed={false} onToggle={() => {}} priority={0} {...args} />
-);
+const Template: StoryFn = (args) => <Checkbox {...args} />;
 
 export const Unchecked = Template.bind({});
 Unchecked.args = {
   completed: false,
-  label: "This is an unchecked todo",
-  onToggle: () => console.log("Toggled"),
+  onChange: () => console.log("Unchecked toggled"),
+  borderColor: "gray",
 };
 
 export const Checked = Template.bind({});
 Checked.args = {
   completed: true,
-  label: "This is a checked todo",
-  onToggle: () => console.log("Toggled"),
+  onChange: () => console.log("Checked toggled"),
+  borderColor: "#fa9b15",
 };

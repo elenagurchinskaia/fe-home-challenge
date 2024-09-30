@@ -3,7 +3,12 @@ import ToDoList from "../components/ToDoList";
 import "@testing-library/jest-dom";
 
 describe("ToDoList", () => {
-  const tasks = [
+  const tasks: {
+    id: number;
+    name: string;
+    completed: boolean;
+    priority: 1 | 2 | 3 | 4;
+  }[] = [
     { id: 1, name: "Task 1", completed: false, priority: 1 },
     { id: 2, name: "Task 2", completed: true, priority: 2 },
   ];

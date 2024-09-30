@@ -1,4 +1,14 @@
 import { useState, useEffect } from "react";
+
+const priorityColors: {
+  [key: number]: "gray" | "#5295f8" | "#fa9b15" | "#f96f65";
+} = {
+  1: "gray", // low
+  2: "#5295f8", // medium
+  3: "#fa9b15", // high
+  4: "#f96f65", // urgent
+};
+
 import IconButton from "./shared/IconButton";
 import Checkbox from "./shared/Checkbox";
 import { useAnalytics } from "../hooks/useAnalytics";
@@ -8,7 +18,7 @@ interface ToDoItemProps {
   id: number;
   name: string;
   completed: boolean;
-  priority: number;
+  priority: 1 | 2 | 3 | 4;
   onToggleComplete: (id: number) => void;
   onDeleteTask: (id: number) => void;
   onEditTask: (id: number, newName: string) => void;
@@ -54,7 +64,14 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
       setIsEditing(true);
     } else if (e.key === "Escape" && isEditing) {
       setIsEditing(false);
-      setEditValue(name); // Reset to original value on cancel
+      setEditValue(name); // reset to original value on cancel
+    }
+  };
+
+  const handleDeleteKeyPress = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "Enter") {
+      e.stopPropagation();
+      onDeleteTask(id);
     }
   };
 
@@ -88,9 +105,9 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
     >
       <Box display="flex" alignItems="center">
         <Checkbox
-          completed={completed}
-          onToggle={() => onToggleComplete(id)}
-          priority={priority}
+          checked={completed}
+          onChange={() => onToggleComplete(id)}
+          borderColor={priorityColors[priority]}
           tabIndex={0}
         />
 
@@ -122,7 +139,11 @@ const ToDoItem: React.FC<ToDoItemProps> = ({
         )}
       </Box>
 
-      <IconButton onClick={() => onDeleteTask(id)} />
+      <IconButton
+        onClick={() => onDeleteTask(id)}
+        onKeyDown={handleDeleteKeyPress}
+        tabIndex={0}
+      />
     </Box>
   );
 };

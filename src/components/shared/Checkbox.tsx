@@ -1,11 +1,11 @@
 import React from "react";
-import { Checkbox as MUICheckbox } from "@mui/material";
+import {
+  Checkbox as MUICheckbox,
+  CheckboxProps as MUICheckboxProps,
+} from "@mui/material";
 
-interface CheckboxProps {
-  completed: boolean;
-  onToggle: () => void;
-  priority: number;
-  tabIndex?: number;
+interface CheckboxProps extends MUICheckboxProps {
+  borderColor?: (typeof priorityColors)[keyof typeof priorityColors];
 }
 
 const priorityColors = {
@@ -13,28 +13,23 @@ const priorityColors = {
   2: "#5295f8", // medium
   3: "#fa9b15", // high
   4: "#f96f65", // urgent
-};
+} as const;
 
-const Checkbox: React.FC<CheckboxProps> = ({
-  completed,
-  onToggle,
-  priority,
-}) => {
-  const priorityColor =
-    priorityColors[priority as keyof typeof priorityColors] || "gray";
+const Checkbox: React.FC<CheckboxProps> = (props) => {
+  const { checked, onChange, borderColor = "gray" } = props;
   return (
     <MUICheckbox
-      checked={completed}
-      onChange={onToggle}
+      checked={checked}
+      onChange={onChange}
       sx={{
-        color: priorityColor,
+        color: borderColor,
         "&.Mui-checked": {
-          color: priorityColor,
+          color: borderColor,
         },
         borderRadius: "50%",
         padding: "4px",
         "&:hover": {
-          backgroundColor: `${priorityColor}20`,
+          backgroundColor: `${borderColor}20`,
         },
       }}
     />

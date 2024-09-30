@@ -7,17 +7,18 @@ import {
   InputLabel,
   FormControl,
   Box,
-  IconButton,
+  Button,
+  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 interface AddTaskProps {
-  onAddTask: (name: string, priority: number) => void;
+  onAddTask: (name: string, priority: 1 | 2 | 3 | 4) => void;
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState("");
-  const [priority, setPriority] = useState(1);
+  const [priority, setPriority] = useState<1 | 2 | 3 | 4>(1);
   const { client } = useAnalytics();
 
   const handleAddTask = () => {
@@ -40,23 +41,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start" mb={4}>
-      <IconButton
-        sx={{
-          color: "red",
-          display: "flex",
-          alignItems: "center",
-          fontSize: "1rem",
-          "&:hover": { backgroundColor: "transparent" },
-        }}
-        onClick={handleAddTask}
-      >
-        <AddIcon sx={{ color: "#f96f65", marginRight: "8px" }} />
-        <span style={{ color: "#A9A9A9", textTransform: "lowercase" }}>
-          Add task
-        </span>
-      </IconButton>
-
+    <Box sx={{ marginBottom: 2 }}>
       <Box
         display="flex"
         flexDirection={{ xs: "column", md: "row" }}
@@ -72,15 +57,12 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
           fullWidth
           sx={{ mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
         />
-        <FormControl
-          sx={{ minWidth: 120, mb: { xs: 2, md: 0 }, mr: { md: 2 } }}
-          size="small"
-        >
+        <FormControl fullWidth>
           <InputLabel id="priority-label">Priority</InputLabel>
           <Select
             labelId="priority-label"
             value={priority}
-            onChange={(e) => setPriority(Number(e.target.value))}
+            onChange={(e) => setPriority(e.target.value as 1 | 2 | 3 | 4)}
             label="Priority"
           >
             <MenuItem value={1}>Low</MenuItem>
@@ -90,6 +72,28 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
           </Select>
         </FormControl>
       </Box>
+      <Grid
+        item
+        xs={12}
+        display="flex"
+        justifyContent="flex-end"
+        sx={{ marginTop: 2 }}
+      >
+        <Button
+          variant="outlined"
+          onClick={handleAddTask}
+          sx={{
+            borderColor: "#f96f65",
+            ":hover": {
+              borderColor: "#f96f65",
+              backgroundColor: "rgba(249, 111, 101, 0.1)",
+            },
+          }}
+        >
+          <AddIcon sx={{ color: "#f96f65", marginRight: "8px" }} />
+          <span style={{ color: "#A9A9A9" }}>add task</span>
+        </Button>
+      </Grid>
     </Box>
   );
 };

@@ -9,7 +9,7 @@ describe("ToDoItem", () => {
     id: 1,
     name: "Test Task",
     completed: false,
-    priority: 2,
+    priority: 2 as 1 | 2 | 3 | 4,
     onToggleComplete: mockToggleComplete,
     onDeleteTask: mockDeleteTask,
     onEditTask: mockEditTask,
